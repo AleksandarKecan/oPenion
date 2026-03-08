@@ -24,7 +24,6 @@ function TopicDetails() {
         <div className="topic-details">
             <h1>{topic.title}</h1>
             <p className="topic-meta">By {topic.author} | {topic.date}</p>
-            <p className="topic-content">{topic.content}</p>
             <CommentSection topicId={id} currentUser={user} />
         </div>
     );

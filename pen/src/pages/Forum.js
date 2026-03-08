@@ -67,10 +67,6 @@ function Forum() {
                 />
             </div>
             <TopicForm onTopicAdded={handleTopicsAdded} />
-        <div className="forum-header">
-            <h2>All topics</h2>
-                <button className="new-topic-btn">+ New Topic</button>
-            </div>
         <div className="forum-topics">
                 <TopicList filteredTopics={filteredTopics} isForum={true} onLike={handleLike} />
         </div>

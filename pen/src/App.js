@@ -6,6 +6,8 @@ import Home from "./pages/Home";
 import Forum from "./pages/Forum";
 import Gallery from "./pages/Gallery";
 import Profile from "./pages/Profile";
+import Messages from "./pages/Messages";
+import { MessageProvider } from "./context/MessageContext";
 import TopicDetails from "./pages/TopicDetails";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -19,6 +21,7 @@ const AppRoutes = () => {
       <Route path="/topic/:id" element={<TopicDetails />} />
       <Route path="/gallery" element={user ? <Gallery /> : <Navigate to="/" />} />
       <Route path="/profile" element={user ? <Profile /> : <Navigate to="/" />} />
+      <Route path="/messages" element={user ? <Messages /> : <Navigate to="/" />} />
     </Routes> 
   );
 };
@@ -27,14 +30,16 @@ function App() {
   return (
     <BrowserRouter>
       <ThemeProvider>
-      <AuthProvider>
+        <AuthProvider>
+          <MessageProvider>
         <div className="App">
           <Header />
           <main className="main-content">
             <AppRoutes />
           </main>
           <Footer />
-        </div>
+            </div>
+          </MessageProvider>
         </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>

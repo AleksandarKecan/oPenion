@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { FaTrash } from "react-icons/fa";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 function CommentSection({ topicId, currentUser }) {
@@ -68,8 +69,20 @@ return (
                 <div key={comment.id} className="comment">
                     <p className="comment-text">{comment.text}</p>
                     <div className="comment-footer">
+                        <div className="comment-header">
                         <p className="comment-meta">By {comment.author} | {comment.date}</p>
-                        {currentUser && (
+                            {currentUser && comment.author === currentUser.username && (
+                                <button className="delete-comment-btn" onClick={() => {
+                                    if (window.confirm("Delete this comment?")) {
+                                        const updated = comments.filter(c => c.id !== comment.id);
+                                        setComments(updated);
+                                        localStorage.setItem(`comments_${topicId}`, JSON.stringify(updated));
+                                    }
+                                }}>
+                                    <FaTrash />
+                                </button>
+                            )}
+                            </div>
                             <button className="comment-like-btn" onClick={() => handleCommentLike(comment.id)}>
                                 {commentLikes[comment.id]?.liked ?
                                 <FaHeart color="#dc3545" /> :
@@ -77,7 +90,6 @@ return (
                                 }
                                 <span>{commentLikes[comment.id]?.count || 0}</span>
                             </button>
-                        )}
                     </div>
                 </div>
             ))}

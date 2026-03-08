@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import LoginPrompt from "../components/LoginPrompt";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 
 
 function Gallery() {
@@ -101,6 +102,14 @@ function Gallery() {
                                 <button className="gallery-like-btn" onClick={(e) => { e.stopPropagation(); handleLike(image.id); }}>
                                     {image.liked ? <FaHeart color="#dc3545" /> : <FaRegHeart />}
                                     <span>{image.likes || 0}</span>
+                                </button>
+                                <button className="delete-image-btn" onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (window.confirm("Delete this image?")) {
+                                        const updated = images.filter(img => img.id !== image.id);
+                                        setImages(updated);
+                                    }}}>
+                                    <FaTrash />
                                 </button>
                             </div>
                         ))
