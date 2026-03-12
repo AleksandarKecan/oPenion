@@ -13,7 +13,10 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 const AppRoutes = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  if (loading) {
+    return <div className="loading">Loading...</div>
+  }
   return (
     <Routes>
       <Route path="/" element={<Home />} />

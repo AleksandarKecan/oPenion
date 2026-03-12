@@ -31,6 +31,7 @@ function Header() {
                     <>
                         <button className="header-sign-in-button" onClick={() => setIsLogInOpen(true)}><FcKey />Sign In</button>
                         <button className="create-account-button" onClick={() => setIsRegisterOpen(true)}> 📄 Create Account</button>
+                        <button className="theme-toggle" onClick={toggleDarkMode}>{darkMode ? <FaSun /> : <FaMoon />}</button>
                     </>
                 ) : (
                         <>

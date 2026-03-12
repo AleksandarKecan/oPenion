@@ -14,14 +14,18 @@ function Gallery() {
 
     useEffect(() => {
         const savedImages = localStorage.getItem("galleryImages");
+        console.log("ucitavam slike:", savedImages)
         if (savedImages) {
             setImages(JSON.parse(savedImages));
+        } else {
+            setImages([]);
+            localStorage.setItem("galleryImages", JSON.stringify([]));
         }
     }, []);
 
     useEffect(() => {
-        localStorage.setItem("galleryImages", JSON.stringify(images));
-    }, [images]);
+            localStorage.setItem("galleryImages", JSON.stringify(images));
+        }, [images]);
 
 
     const handleLike = (imageId) => {
@@ -37,19 +41,30 @@ function Gallery() {
     const handleImageUpload = (e) => {
         const files = Array.from(e.target.files);
         setUploading(true);
-        const newImages = files.map(file => ({
+        const readers = files.map(file => {
+            return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+            resolve({
+                
             id: Date.now() + Math.random(),
             name: file.name,
-            url: URL.createObjectURL(file),
+            url: reader.result,
             size: file.size,
             type: file.type,
             likes: 0,
             liked: false
-        }));
-        setImages(prev => [...newImages, ...prev]);
-        setUploading(false);
-        e.target.value = "";
+        });
     };
+    reader.readAsDataURL(file);
+});
+});
+Promise.all(readers).then(newImages => {
+    setImages(prev => [...newImages, ...prev]);
+    setUploading(false);
+});
+e.target.value = "";
+};
     const openImageModal = (image) => {
         setSelectedImage(image);
     };
